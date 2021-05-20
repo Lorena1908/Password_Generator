@@ -25,6 +25,8 @@ while True:
     else:
         print('Invalid answer, try again. ')
 
+length1 = length
+
 while True:
     include_symbols = input('Do you want it to include symbols? (e.g. @#$%&*-_=+) ')
     include_numbers = input('Do you want it to include numbers? (e.g. 1234567890) ')
@@ -58,7 +60,7 @@ while True:
     else:
         break
 
-def add_characters(lentgh_range):
+def add_characters(lentgh_range, length):
     for num in range(lentgh_range):
         if include_symbols == 'y':
             password.extend(random.sample(symbols, length))
@@ -72,12 +74,16 @@ def add_characters(lentgh_range):
             password.extend(random.sample(ambiguous_characters, length))
 
 if lentgh_range != 0:
-    add_characters(lentgh_range)
+    add_characters(lentgh_range, length)
 else:
-    add_characters(1)
+    add_characters(1, length)
 
-print(len(password))
+if len(password) < length1:
+    add_characters(1, length1 - len(password))
+
 random.shuffle(password)
+del password [0:len(password)-length1]
+print(len(password))
 password_final = ''.join(password)
 clipboard.copy(password_final)
 
