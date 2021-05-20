@@ -25,8 +25,6 @@ while True:
     else:
         print('Invalid answer, try again. ')
 
-length1 = length
-
 while True:
     include_symbols = input('Do you want it to include symbols? (e.g. @#$%&*-_=+) ')
     include_numbers = input('Do you want it to include numbers? (e.g. 1234567890) ')
@@ -34,28 +32,23 @@ while True:
     include_uppercase = input('Do you want it to include uppercase characters? (e.g. ABCDE) ')
     include_ambiguous_characters = input('Do you want it to include ambiguous characters? (e.g. {}[]()<>""\'\'/\~) ')
     yes_num = [include_symbols, include_numbers, include_uppercase, include_lowercase, include_ambiguous_characters]
-    length /= round(yes_num.count('y'))
-    length = int(length)
+    length1 = int(round(length / yes_num.count('y')))
     lentgh_range = 0
-    if 20 >= length > 10:
+    if 20 >= length1 > 10:
         lentgh_range = 2
-        length /= lentgh_range
-        length = int(round(length))
+        length1 = int(round(length1 / lentgh_range))
         break
-    elif 30 >= length > 20:
+    elif 30 >= length1 > 20:
         lentgh_range = 3
-        length /= lentgh_range
-        length = int(round(length))
+        length1 = int(round(length1 / lentgh_range))
         break
-    elif 40 >= length > 30:
+    elif 40 >= length1 > 30:
         lentgh_range = 4
-        length /= lentgh_range
-        length = int(round(length))
+        length1 = int(round(length1 / lentgh_range))
         break
-    elif 50 >= length > 40:
+    elif 50 >= length1 > 40:
         lentgh_range = 5
-        length /= lentgh_range
-        length = int(round(length))
+        length1 = int(round(length1 / lentgh_range))
         break
     else:
         break
@@ -74,15 +67,15 @@ def add_characters(lentgh_range, length):
             password.extend(random.sample(ambiguous_characters, length))
 
 if lentgh_range != 0:
-    add_characters(lentgh_range, length)
+    add_characters(lentgh_range, length1)
 else:
-    add_characters(1, length)
+    add_characters(1, length1)
 
-if len(password) < length1:
-    add_characters(1, length1 - len(password))
+if len(password) < length:
+    add_characters(1, length - len(password))
 
 random.shuffle(password)
-del password [0:len(password)-length1]
+del password [0:len(password)-length]
 print(len(password))
 password_final = ''.join(password)
 clipboard.copy(password_final)
