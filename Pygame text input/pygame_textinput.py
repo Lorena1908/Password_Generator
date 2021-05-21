@@ -98,7 +98,7 @@ class TextInput:
                         + self.input_string[self.cursor_position + 1:]
                     )
 
-                elif event.key == pl.K_RETURN:
+                elif event.key == pl.K_RETURN or event.key == pygame.K_KP_ENTER:
                     return True
 
                 elif event.key == pl.K_RIGHT:

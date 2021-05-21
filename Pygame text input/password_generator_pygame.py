@@ -31,9 +31,9 @@ class CheckBox:
     
     def draw(self):
         if self.ticked:
-            pygame.draw.rect(win, self.color, (self.x, self.y, 27,27), 0, 4)
+            pygame.draw.rect(win, self.color, (self.x, self.y, 27,27), 0, 2)
         else:
-            pygame.draw.rect(win, self.color, (self.x, self.y, 27,27), 5, 4)
+            pygame.draw.rect(win, self.color, (self.x, self.y, 27,27), 3, 2)
 
 # CHECKBOXES
 symb_checkbox = CheckBox(688,158)
@@ -58,8 +58,8 @@ def draw_window(error, final_password):
     enter = font.render('Press enter to generate the password!', 1, (0,0,0))
 
     # SHAPES AND CHECKBOX
-    pygame.draw.rect(win, (128,128,128), (135,97, 580, 45), 0, 4) # First rectangle
-    pygame.draw.rect(win, (0,255,0), (25,476, 720, 50), 2, 4)
+    pygame.draw.rect(win, (128,128,128), (135,97, 580, 45), 0, 2) # First rectangle
+    pygame.draw.rect(win, (0,255,0), (25,476, 720, 50), 2, 2)
     symb_checkbox.draw()
     numb_checkbox.draw()
     upper_checkbox.draw()
@@ -93,24 +93,21 @@ def checked_num(checkbox_list):
     return checked_num
 
 def generate_password(length):
-    if checked_num(checkbox_list) != 0:
-        length1 = int(round(length / checked_num(checkbox_list)))
-        lentgh_range = 0
-        if 20 >= length1 > 10:
-            lentgh_range = 2
-            length1 = int(round(length1 / lentgh_range))
-        elif 30 >= length1 > 20:
-            lentgh_range = 3
-            length1 = int(round(length1 / lentgh_range))
-        elif 40 >= length1 > 30:
-            lentgh_range = 4
-            length1 = int(round(length1 / lentgh_range))
-        elif 50 >= length1 > 40:
-            lentgh_range = 5
-            length1 = int(round(length1 / lentgh_range))
-        return length1, lentgh_range
-    else:
-        return 0, 0
+    length1 = int(round(length / checked_num(checkbox_list)))
+    lentgh_range = 0
+    if 20 >= length1 > 10:
+        lentgh_range = 2
+        length1 = int(round(length1 / lentgh_range))
+    elif 30 >= length1 > 20:
+        lentgh_range = 3
+        length1 = int(round(length1 / lentgh_range))
+    elif 40 >= length1 > 30:
+        lentgh_range = 4
+        length1 = int(round(length1 / lentgh_range))
+    elif 50 >= length1 > 40:
+        lentgh_range = 5
+        length1 = int(round(length1 / lentgh_range))
+    return length1, lentgh_range
 
 def add_characters(lentgh_range, length):
     for num in range(lentgh_range):
@@ -134,10 +131,10 @@ def check_password_length(password, length):
     password_final = ''.join(password)
     return password_final
 
-def create_error(text, x, y):
+def create_error(text):
     type = font.render(text, 1, (255,0,0))
     width = type.get_width() + 20
-    win.blit(type, (width/2 - type.get_width()/2 + x, 25 - type.get_height()/2 + y))
+    win.blit(type, (25, 558))
 
 while run:
     win.fill((255,255,255))
@@ -149,34 +146,34 @@ while run:
             length = int(length)
             if length <= 50:
                 right_length = True
-                pass
             else:
                 error = True
-                create_error('Large password!', 25, 548)
+                create_error('Large password!')
         else:
             error = True
-            create_error('Your answer is not a number!', 25, 548)
+            create_error('Your answer is not a number!')
         
         if right_length:
-            length1, lentgh_range = generate_password(length)
-            if lentgh_range != 0:
-                add_characters(lentgh_range, length1)
-            else:
-                add_characters(1, length1)
-            
-            if length1 == 0 and lentgh_range == 0:
-                error = True
-                create_error('Select at least one checkbox!', 25, 548)
+            try:
+                length1, lentgh_range = generate_password(length)
 
-            password_final = check_password_length(password, length)
-            if password_final:
-                t = font.render('Password Copied to Clipboard!', 1, (255,0,0))
-                draw_window(error, password_final)
-                pygame.draw.rect(win, (255,255,255), (25, 558, width, 200))
-                win.blit(t, (25, 558))
-                pygame.display.update()
-                clipboard.copy(password_final)
-                pygame.time.wait(2000)
+                if lentgh_range != 0:
+                    add_characters(lentgh_range, length1)
+                else:
+                    add_characters(1, length1)
+                
+                password_final = check_password_length(password, length)
+
+                if password_final:
+                    t = font.render('Password Copied to Clipboard!', 1, (255,0,0))
+                    draw_window(error, password_final)
+                    pygame.draw.rect(win, (255,255,255), (25, 558, width, 200))
+                    win.blit(t, (25, 558))
+                    pygame.display.update()
+                    clipboard.copy(password_final)
+                    pygame.time.wait(2000)
+            except(ZeroDivisionError, TypeError):
+                pass
 
     for event in events:
         if event.type == pygame.QUIT:
@@ -190,10 +187,10 @@ while run:
             toggle_checked(lower_checkbox, x, y)
             toggle_checked(amb_char_checkbox, x, y)
 
-        draw_window(error, '')
-        win.blit(text_input.get_surface(), (135,108))
-        pygame.display.update()
-        
-        if error:
-            error = False
-            pygame.time.wait(1500)
+    draw_window(error, 'Here will be your password')
+    win.blit(text_input.get_surface(), (135,108))
+    pygame.display.update()
+    
+    if error:
+        error = False
+        pygame.time.wait(1500)
