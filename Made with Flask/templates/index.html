@@ -2,18 +2,60 @@
 <html>
     <head>
         <title>Password Generator</title>
+        <style>
+            div {
+                display: table;
+            }
+            .row {
+                display: table-row;
+            }
+            .row1 {
+                display: inline;
+            }
+            label {
+                display: table-cell;
+                padding-right: 1em;
+            }
+        </style>
     </head>
     <body>
         <h1>Password Generator</h1>
-        <p style="color: red;">The maximum length is 50 characters</p>
-
         <form action="/main" method='POST'>
-            <p>Length: <input type="text" name="length"></p>
-            <p>Include Symbols: <input type="checkbox" name="symbols"> (e.g. @#$%&*-_=+) </p>
-            <p>Include Numbers: <input type="checkbox" name="numbers"> (e.g. 1234567890)</p>
-            <p>Include Lowercase Characters: <input type="checkbox" name="lowercase"> (e.g. abcd)</p>
-            <p>Include Uppercase Characters: <input type="checkbox" name="uppercase"> (e.g. ABCD)</p>
-            <p>Include Ambiguous Characters: <input type="checkbox" name="amb_char"> (e.g. {}[]()<>""\'\'/\~)</p>
+            <div class="row1">
+                <label>Length: </label>
+                <input type="text" name="length">
+                <label>(max: 50 characters)</label>
+            </div>
+            <div class='row'>
+                <label>Include Symbols: </label>
+                <input type="checkbox" name="symbols">
+                <label>(e.g. @#$%&*-_=+)</label>
+            </div>
+            <div class="row">
+                <label>Include Numbers: </label>
+                <input type="checkbox" name="numbers">
+                <label>(e.g. 1234567890)</label>
+            </div>
+            <div class="row">
+                <label>Include Lowercase Characters:</label> 
+                <input type="checkbox" name="lowercase"> 
+                <label>(e.g. abcd)</label>
+            </div>
+            <div class="row">
+                <label>Include Uppercase Characters: </label>
+                <input type="checkbox" name="uppercase">
+                <label>(e.g. ABCD)</label>
+            </div>
+            <div class="row">
+                <label>Include Ambiguous Characters: </label>
+                <input type="checkbox" name="amb_char">
+                <label>(e.g. {}[]()<>""\'\'/\~)</label>
+            </div>
+            <!-- <div class="row1">
+                <label>Password: </label>
+                <input id="copy" type="text" value="{{ password }}">
+                <button onclick="Copy()">Copy</button></p>
+            </div> -->
             <p>Password: <input id="copy" type="text" value="{{ password }}"> <button onclick="Copy()">Copy</button></p>
             <p><input type="submit" value="Generate Password"></p>
         </form>
