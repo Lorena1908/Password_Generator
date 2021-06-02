@@ -104,6 +104,7 @@ def main():
                 add_characters(1, length1, true_num)
             
             password_final = check_password_length(password, length)
+            password.clear()
 
             return render_template('index.html', password=password_final)
         except(ZeroDivisionError, TypeError):

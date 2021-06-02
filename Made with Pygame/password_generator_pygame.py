@@ -165,6 +165,7 @@ while run:
                 password_final = check_password_length(password, length)
 
                 if password_final:
+                    password.clear()
                     t = font.render('Password Copied to Clipboard!', 1, (255,0,0))
                     draw_window(error, password_final)
                     pygame.draw.rect(win, (255,255,255), (25, 558, width, 200))
